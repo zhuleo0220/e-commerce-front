@@ -8,10 +8,16 @@
       <div *ngSwitchCase="'home'">
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item">
+            <a class=" nav-link" routerLink="/home">Home</a>
+          </li>
+          <li class="nav-item">
             <a class=" nav-link" routerLink="/register">Register</a>
           </li>
           <li class="nav-item">
             <a class=" nav-link" routerLink="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class=" nav-link" routerLink="/admin/login">AdminLogin</a>
           </li>
         </ul>
       </div>
@@ -26,6 +32,7 @@
           <li class="nav-item">
             <a class=" nav-link" routerLink="/home/cart">Cart</a>
           </li>
+
           <li class="nav-item">
             <a class=" nav-link " (click)="logout()" style="cursor: pointer; float: right;">Log out</a>
           </li>

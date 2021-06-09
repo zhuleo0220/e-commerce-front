@@ -35,6 +35,16 @@ export class ApiService {
            }
       });
   }
+  adminLogin(user: User): Observable<any> {
+    return this.http.post(environment.baseUrl+environment.adminLoginUrl,
+        JSON.stringify(user),
+        {
+          headers:
+              { 'Content-Type': 'application/json' ,
+                'Access-Control-Allow-Origin': '*'
+              }
+        });
+  }
 
   logout(){
     this.http.get<any>(environment.baseUrl+environment.logoutUrl);
@@ -42,7 +52,7 @@ export class ApiService {
 
   // Add Products to the Cart
   addToCart(product: Product ): Observable<any> {
-    return this.http.get<any>(environment.baseUrl+environment.addToCartUrl +"?productId="+product.productid);
+    return this.http.get<any>(environment.baseUrl+environment.addToCartUrl +"?productId="+product.id);
   }
 
   // View Cart items
@@ -81,27 +91,29 @@ export class ApiService {
 
   // Add product in the system
   addProduct( desc: string,
-    quan: string, price: string, prodname: string, image: File): Observable<any> {
+    quan: string, price: string, prodname: string, image: File, keyword: string): Observable<any> {
     const formData: FormData = new FormData();
+    formData.append("images", image);
     formData.append("description", desc);
     formData.append("price", price);
-    formData.append("productname", prodname);
-    formData.append("quantity", quan);
-    formData.append("file", image);
+    formData.append("name", prodname);
+    formData.append("stock", quan);
+    formData.append("keyword", keyword);
     return this.http.post<any>(environment.baseUrl+environment.addProductUrl, formData);
 
   }
 
   // update Product for Logged Admin User
   updateProduct( desc: string,
-    quan: string, price: string, prodname: string, image: File, productid: any): Observable<any> {
+    quan: string, price: string, prodname: string, image: File, keywords: string, id: any): Observable<any> {
     const formData: FormData = new FormData();
     formData.append("description", desc);
     formData.append("price", price);
-    formData.append("productname", prodname);
-    formData.append("quantity", quan);
-    formData.append("file", image);
-    formData.append("productId", productid);
+    formData.append("name", prodname);
+    formData.append("stock", quan);
+    formData.append("images", image);
+    formData.append("keyword", keywords);
+    formData.append("productId", id);
     return this.http.put<any>(environment.baseUrl+environment.updateProductUrl, formData);
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Product } from 'src/app/Model/product';
 import { ApiService } from 'src/app/Service/api.service';
 
@@ -11,12 +11,13 @@ import { ApiService } from 'src/app/Service/api.service';
 export class EditItemComponent implements OnInit {
 
   product: Product = {
-    productid: 0,
+    id: 0,
     description: '',
     price: 0,
-    productname: '',
-    quantity: 0,
-    productimage: null
+    name: '',
+    stock: 0,
+    keywords: '',
+    images: null
   };
   products: Product[] = [];
   fileToUpload: File = null;
@@ -24,15 +25,14 @@ export class EditItemComponent implements OnInit {
   prodid: string;
   imageUrl: string = "/assets/img/noimage.png";
 
-  constructor(private route: ActivatedRoute, private api: ApiService) {
+  constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) {
     if (this.api.isAuthenticated) {
       this.auth = this.api.getToken();
       this.api.getProducts().subscribe(
         res => {
-          res.oblist.forEach(pro => {
-            if (pro.productid == this.prodid) {
+          res.data.forEach(pro => {
+            if (pro.id == this.prodid) {
               this.product = pro;
-              this.fileToUpload = pro.productimage;
             }
           });
         }
@@ -55,10 +55,10 @@ export class EditItemComponent implements OnInit {
     reader.readAsDataURL(this.fileToUpload);
   }
 
-  updateProd(desc:any, quan:any, price:any, prodname:any, image:any) {
-    console.log(this.product.productid)
-    this.api.updateProduct(desc.value, quan.value, price.value, prodname.value, this.fileToUpload, this.product.productid).subscribe(res => {
-      console.log(res);
+  updateProd(desc:any, stock:any, price:any, name:any, image: any, keywords: any) {
+    console.log(this.product.id);
+    this.api.updateProduct(desc.value, stock.value, price.value, name.value,  this.fileToUpload, keywords.value, this.product.id).subscribe(res => {
+      location.reload();
     });
   }
 

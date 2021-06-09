@@ -17,15 +17,15 @@ export class AddressComponent implements OnInit {
     state: '',
     country: '',
     zipcode: '',
-    phonenumber: ''
+    phoneNumber: ''
 
   };
   constructor(private api: ApiService, private route: Router) { }
 
   ngOnInit() {
     this.api.getAddress().subscribe(res => {
-      if (res.map != null) {
-        this.model = res.map;
+      if (res.data != null) {
+        this.model = res.data;
       }
     }, err => {
       console.log(err);
@@ -35,7 +35,7 @@ export class AddressComponent implements OnInit {
   addOrUpdateAddress() {
     this.api.addOrUpdateAddress(this.model).subscribe(res => {
       console.log(res);
-      this.route.navigate(['/home']);
+      location.reload();
     });
   }
 

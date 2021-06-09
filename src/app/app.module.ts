@@ -9,6 +9,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { NavigationComponent } from './Components/navigation/navigation.component';
 import { LoginComponent } from './Components/login/login.component';
+import { AdminLoginComponent } from './Components/adminLogin/adminLogin.component';
 import { RegisterComponent } from './Components/register/register.component';
 import { HomeComponent } from './Components/home/home.component';
 import { AuthguardGuard } from './Service/authguard.guard';
@@ -21,14 +22,14 @@ import { EditItemComponent } from './Components/admin/edit-item/edit-item.compon
 import { OrderItemComponent } from './Components/admin/order-item/order-item.component';
 import { AuthInterceptor } from './Service/AuthInterceptor';
 const appRoutes:Routes=[
-  { path: '',
-    redirectTo: '/login',
-    pathMatch: 'full'
-  },
+
 {
   path:'login',
   component: LoginComponent
-},
+},{
+    path:'admin/login',
+    component: AdminLoginComponent
+  },
 {
   path:'register',
   component: RegisterComponent
@@ -41,7 +42,6 @@ const appRoutes:Routes=[
 {
   path:'home',
   component: HomeComponent,
-  canActivate:[AuthguardGuard]
 },
 {
   path:'home/cart',
@@ -70,6 +70,7 @@ const appRoutes:Routes=[
     AppComponent,
     NavigationComponent,
     LoginComponent,
+    AdminLoginComponent,
     RegisterComponent,
     ProductComponent,
     HomeComponent,

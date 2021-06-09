@@ -13,11 +13,13 @@ import { EventEmitter } from '@angular/core';
 export class ProductComponent implements OnInit {
 
   @Input() public product;
+  blob: Blob;
 
   @Output() productAddToCart: EventEmitter<Product> = new EventEmitter<Product>();
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+     this.blob = new Blob([this.product.images],{type: "image/jpeg"})
 
   }
 

@@ -14,13 +14,11 @@ export class HomeComponent implements OnInit {
   constructor(private api: ApiService) { }
 
   ngOnInit() {
-    if (this.api.isAuthenticated) {
       this.api.getProducts().subscribe(
         res => {
-          this.products = res.oblist;
+          this.products = res.data;
         }
       );
-    }
   }
 
   addToCart(e) {

@@ -22,7 +22,7 @@ export class AdminComponent implements OnInit {
       this.auth = this.api.getToken();
       this.api.getProducts().subscribe(
         res => {
-          this.products = res.oblist;
+          this.products = res.data;
         }
       );
     }
@@ -41,18 +41,17 @@ export class AdminComponent implements OnInit {
   hide() {
     this.showAdd = false;
   }
-  addProd(desc:any, quan:any, price:any, prodname:any, image:any) {
-    this.api.addProduct(desc.value, quan.value, price.value, prodname.value, this.fileToUpload).subscribe(res => {
-      this.products = res.oblist;
+  addProd(desc:any, quan:any, price:any, prodname:any, image:any, keyword:any) {
+    this.api.addProduct(desc.value, quan.value, price.value, prodname.value, this.fileToUpload, keyword.value).subscribe(res => {
+      this.products = res.data;
     });
   }
   delProd(prodid:any) {
 
     this.api.deleteProduct(prodid.value).subscribe(res => {
-      this.products = res.oblist;
+
       this.ngOnInit();
     });
-    
   }
   edit(prodid:any) {
     let navigationExtras: NavigationExtras = {
