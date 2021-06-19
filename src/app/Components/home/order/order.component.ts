@@ -63,6 +63,8 @@ export class OrderComponent implements OnInit {
   }
 
   ComfirmReceive(order: Orders) {
-    
+    this.api.receiveItem(order.id).subscribe();
+    location.reload();
+
   }
 }

@@ -30,6 +30,8 @@ export const environment = {
   addToCollectiontUrl: '/member/productCollection/add',
   deleteToCollectiontUrl: '/member/productCollection/delete/',
     detailItemtUrl: '/order/',
+  deliverOrderUrl: '/order/update/delivery',
+  receiveOrderUrl: '/order/update/received'
 
 
 };

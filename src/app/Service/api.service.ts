@@ -239,4 +239,14 @@ export class ApiService {
   getDetailItems(orderId:number) {
     return this.http.get<any>(environment.baseUrl+environment.detailItemtUrl  +orderId);
   }
+
+  deliveryItem(id: number) {
+    return this.http.delete<any>(environment.baseUrl+environment.deliverOrderUrl + "?id=" + id);
+
+  }
+
+  receiveItem(id: number) {
+    return this.http.delete<any>(environment.baseUrl+environment.receiveOrderUrl + "?id=" + id);
+
+  }
 }
