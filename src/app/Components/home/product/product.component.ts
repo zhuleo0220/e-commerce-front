@@ -16,6 +16,8 @@ export class ProductComponent implements OnInit {
   blob: Blob;
 
   @Output() productAddToCart: EventEmitter<Product> = new EventEmitter<Product>();
+  @Output() productAddToCollection: EventEmitter<Product> = new EventEmitter<Product>();
+
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
@@ -27,4 +29,7 @@ export class ProductComponent implements OnInit {
     this.productAddToCart.emit(this.product);
   }
 
+    addToCollection() {
+      this.productAddToCollection.emit(this.product);
+    }
 }

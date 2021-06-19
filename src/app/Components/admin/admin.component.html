@@ -2,11 +2,13 @@
 <div class="container">
         <div class="row">
                 <div class="col-12">
-                        <button class="mybtn btn btn-secondary" (click)="show()" *ngIf="!showAdd">Click to Add</button>
-                        <button class="mybtn btn btn-secondary" (click)="hide()" *ngIf="showAdd">Click to hide</button>
+                        <button class="mybtn btn btn-secondary" (click)="show()" *ngIf="!showAdd">Click to Add Product</button>
+                        <button class="mybtn btn btn-secondary" (click)="showCategory()" *ngIf="!showAddCategory">Click to Add Category</button>
+                        <button class="mybtn btn btn-secondary" (click)="hide()" *ngIf="showAdd||showAddCategory">Click to hide</button>
                 </div>
         </div>
-        <form class="form-horizontal shadow p-3 mb-5 bg-white rounded " #f="ngForm" (ngSubmit)="f.form.valid && addProd(desc,stock,price,name,image,keyword)"
+
+        <form class="form-horizontal shadow p-3 mb-5 bg-white rounded " #f="ngForm" (ngSubmit)="f.form.valid && addProd(desc,stock,price,name,image,keyword,categoryId)"
                 *ngIf="showAdd">
                 <div class="row">
                         <div class="col-6">
@@ -31,6 +33,10 @@
                                                ngModel>
                                 </div>
                                 <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="categoryId" name="category" #categoryId
+                                               ngModel>
+                                </div>
+                                <div class="form-group">
                                         <input type="file" class="form-control" placeholder="Product Picture" #image
                                                 accept="image/*" name="image"
                                                 (change)="handleFileInput($event.target.files)">
@@ -49,6 +55,122 @@
                         </div>
                 </div>
         </form>
+        <form class="form-horizontal shadow p-3 mb-5 bg-white rounded " #f="ngForm" (ngSubmit)="f.form.valid && addCategory(parentid,name,level,product_count,keywords,desc)"
+              *ngIf="showAddCategory">
+                <div class="row">
+                        <div class="col-6">
+                                <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Category Name" #name
+                                               ngModel name="prodname">
+                                </div>
+                                <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Parent Id" #parentid
+                                               ngModel name="parentid">
+                                </div>
+                                <div class="form-group">
+                                        <textarea type="text" class="form-control" placeholder="description" name="desc"
+                                                  #desc ngModel rows="5"></textarea>
+                                </div>
+                                <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="product_count" name="product_count" #product_count
+                                               ngModel>
+                                </div>
+                                <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="level" name="level" #level
+                                               ngModel>
+                                </div>
+                                <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="keyword" name="keyword" #keywords
+                                               ngModel>
+                                </div>
+
+                        </div>
+
+
+                </div>
+                <div class="row">
+                        <div class="col-6">
+                                <input type="submit" class=" btn btn-primary" value="Add Category">
+                        </div>
+                </div>
+        </form>
+        <form class="form-horizontal shadow p-3 mb-5 bg-white rounded " #f="ngForm" (ngSubmit)="f.form.valid && clickEditCategory(parentid,name,level,product_count,keywords,desc)"
+              *ngIf="showEditCat">
+                <div class="row">
+                        <div class="col-6">
+                                <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Category Name" #name
+                                               ngModel [(ngModel)]="editCat.name"name="categoryName">
+                                </div>
+                                <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Parent Id" #parentid
+                                               ngModel [(ngModel)]="editCat.parent_id" name="parentid">
+                                </div>
+                                <div class="form-group">
+                                        <textarea type="text" class="form-control" placeholder="description" name="desc"
+                                                  #desc ngModel [(ngModel)]="editCat.description"rows="5"></textarea>
+                                </div>
+                                <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="product_count" name="product_count" #product_count
+                                               ngModel [(ngModel)]="editCat.product_count">
+                                </div>
+                                <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="level" name="level" #level
+                                               ngModel [(ngModel)]="editCat.level">
+                                </div>
+                                <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="keyword" name="keyword" #keywords
+                                               ngModel [(ngModel)]="editCat.keywords">
+                                </div>
+
+                        </div>
+
+
+                </div>
+                <div class="row">
+                        <div class="col-6">
+                                <input type="submit" class=" btn btn-primary" value="Edit Category">
+                        </div>
+                </div>
+        </form>
+        <h1>Categories</h1>
+        <ul>
+                <button (click)="toggleShow()">show/hide</button>
+                <button (click)="showAll()">show all products</button>
+        </ul>
+        <ul class="categories" *ngIf="ifShow">
+                <li *ngFor="let category of categories"
+                    [class.selected]="category === selectedCategory"
+                    (click)="onSelect(category)">
+                        <span class="badge">{{category.id}}</span> {{category.name}}
+                        <div class="row">
+                                <div class="col-6">
+                                        <button class="btn btn-secondary" (click)="editCategory(category)">Edit</button>
+                                </div>
+                                <div class="col-6">
+                                        <button class="btn btn-danger"
+                                                (click)="delCategory(category)">Remove</button>
+                                </div>
+                        </div> </li>
+        </ul>
+        <h1>SubCategories</h1>
+        <ul class="categories" *ngIf="subShow">
+                <li *ngFor="let category of subCategories"
+                    [class.selected]="category === selectedCategory"
+                    (click)="onSelectSub(category)">
+                        <span class="badge">{{category.id}}</span> {{category.name}}
+                        <div class="row">
+                                <div class="col-6">
+                                        <button class="btn btn-secondary" (click)="editCategory(category)">Edit</button>
+                                </div>
+                                <div class="col-6">
+                                        <button class="btn btn-danger"
+                                                (click)="delCategory(category)">Remove</button>
+                                </div>
+                        </div>
+                </li>
+        </ul>
+
         <hr>
         <div class="row">
                 <div class="col-3 align-left" *ngFor="let product of products">

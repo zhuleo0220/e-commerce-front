@@ -17,7 +17,8 @@ export class EditItemComponent implements OnInit {
     name: '',
     stock: 0,
     keywords: '',
-    images: null
+    images: null,
+    productCategoryId:0
   };
   products: Product[] = [];
   fileToUpload: File = null;
@@ -28,7 +29,7 @@ export class EditItemComponent implements OnInit {
   constructor(private route: ActivatedRoute, private api: ApiService, private router: Router) {
     if (this.api.isAuthenticated) {
       this.auth = this.api.getToken();
-      this.api.getProducts().subscribe(
+      this.api.getProducts(0).subscribe(
         res => {
           res.data.forEach(pro => {
             if (pro.id == this.prodid) {
@@ -55,9 +56,9 @@ export class EditItemComponent implements OnInit {
     reader.readAsDataURL(this.fileToUpload);
   }
 
-  updateProd(desc:any, stock:any, price:any, name:any, image: any, keywords: any) {
+  updateProd(desc:any, stock:any, price:any, name:any, image: any, keywords: any, categoryId: any) {
     console.log(this.product.id);
-    this.api.updateProduct(desc.value, stock.value, price.value, name.value,  this.fileToUpload, keywords.value, this.product.id).subscribe(res => {
+    this.api.updateProduct(desc.value, stock.value, price.value, name.value,  this.fileToUpload, keywords.value,categoryId.value, this.product.id).subscribe(res => {
       location.reload();
     });
   }

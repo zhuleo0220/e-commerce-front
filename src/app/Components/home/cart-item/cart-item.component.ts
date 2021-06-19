@@ -20,28 +20,23 @@ export class CartItemComponent implements OnInit {
 
   ngOnInit() {
     this.api.getCartItems().subscribe(res => {
-      this.cartlist = res.oblist;
+      this.cartlist = res.data;
       this.cartlist.forEach(value => {
         this.totalSum = this.totalSum + (value.quantity * value.price);
+
       });
     });
 
   }
-  updateCart(id:any, quantity:any) {
-    this.api.updateCartItem(id.value, quantity.value).subscribe(res => {
-      this.cartlist = res.oblist;
-      this.cartlist.forEach(value => {
-        this.totalSum = this.totalSum + (value.quantity * value.price);
-      });
+  updateCart(id, quantity:any) {
+    this.api.updateCartItem(id, quantity.value).subscribe(res => {
     });
+  location.reload();
   }
   deleteItem(id:any) {
-    this.api.deleteCartItem(id.value).subscribe(res => {
-      this.cartlist = res.oblist;
-      this.cartlist.forEach(value => {
-        this.totalSum = this.totalSum + (value.quantity * value.price);
-      });
+    this.api.deleteCartItem(id).subscribe(res => {
     });
+    location.reload();
   }
 
   placeOrder() {

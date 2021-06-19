@@ -1,0 +1,27 @@
+<app-navigation></app-navigation>
+<div class="container">
+
+
+
+
+  <div class="row">
+    <div class="col-3 align-left" *ngFor="let product of products">
+      <div class="card shadow p-3 mb-5 bg-white rounded">
+        <div class="card-body">
+          <h5 class="card-title">{{product.name}}</h5>
+          <img src="data:image/png;base64,{{product.images}}" class="img-responsive"
+               height="150px" width="200px" alt="Image">
+          <p class="card-text"> {{product.description}}</p>
+          <p class="card-text"> {{product.price}} €</p>
+          <input type="hidden" value={{product.id}} #prdid>
+          <div class="row">
+            <div class="col-6">
+              <button class="btn btn-danger"
+                      (click)="delProd(product.id)">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

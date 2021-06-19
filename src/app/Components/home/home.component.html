@@ -1,9 +1,30 @@
 <app-navigation></app-navigation>
 <div class="container">
   <br>
+  <h1>Categories</h1>
+  <ul>
+    <button (click)="toggleShow()">show/hide</button>
+    <button (click)="showAll()">show all products</button>
+  </ul>
+  <ul class="categories" *ngIf="ifShow">
+    <li *ngFor="let category of categories"
+        [class.selected]="category === selectedCategory"
+        (click)="onSelect(category)">
+      <span class="badge">{{category.id}}</span> {{category.name}}
+    </li>
+  </ul>
+  <h1>SubCategories</h1>
+  <ul class="categories" *ngIf="subShow">
+    <li *ngFor="let category of subCategories"
+        [class.selected]="category === selectedCategory"
+        (click)="onSelectSub(category)">
+      <span class="badge">{{category.id}}</span> {{category.name}}
+    </li>
+  </ul>
   <div class="row">
     <div class="col-3 align-left" *ngFor="let product of products">
-      <app-product [product]="product" (productAddToCart)="addToCart($event)">Loading...</app-product>
+      <app-product [product]="product" (productAddToCart)="addToCart($event)" (productAddToCollection)="addToCollection($event)">Loading...</app-product>
     </div>
   </div>
 </div>
+

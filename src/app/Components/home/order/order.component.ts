@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ApiService } from 'src/app/Service/api.service';
+
+import {ApiService} from '../../../Service/api.service';
+import {Router} from '@angular/router';
 import {Orders} from '../../../Model/Orders';
 import {Address} from '../../../Model/address';
 import {Cart} from '../../../Model/cart';
 
 @Component({
-  selector: 'order-item',
-  templateUrl: './order-item.component.html',
-  styleUrls: ['./order-item.component.css']
+  selector: 'app-order',
+  templateUrl: './order.component.html',
+  styleUrls: ['./order.component.css']
 })
-export class OrderItemComponent implements OnInit {
+export class OrderComponent implements OnInit {
 
   private auth: string;
   orderList: Orders[];
@@ -30,7 +31,7 @@ export class OrderItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.api.getOrders(0).subscribe(res => {
+    this.api.getOrders(1).subscribe(res => {
       this.orderList = res.data;
       this.orderList.forEach(value => {
         value.showDetail=false;
@@ -62,6 +63,6 @@ export class OrderItemComponent implements OnInit {
   }
 
   ComfirmReceive(order: Orders) {
-
+    
   }
 }

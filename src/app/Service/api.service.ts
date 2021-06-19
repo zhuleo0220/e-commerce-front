@@ -6,6 +6,8 @@ import { User } from '../Model/user';
 import { SESSION_STORAGE, StorageService } from 'angular-webstorage-service';
 import { Address } from '../Model/address';
 import { environment } from 'src/environments/environment';
+import {Category} from '../Model/Category';
+import {Cart} from '../Model/cart';
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +54,7 @@ export class ApiService {
 
   // Add Products to the Cart
   addToCart(product: Product ): Observable<any> {
-    return this.http.get<any>(environment.baseUrl+environment.addToCartUrl +"?productId="+product.id);
+    return this.http.post<any>(environment.baseUrl+environment.addToCartUrl , product );
   }
 
   // View Cart items
@@ -62,16 +64,21 @@ export class ApiService {
 
   // update items quantity in the cart
   updateCartItem(prodid: number, quant: number): Observable<any> {
-    var map = {
-      "id":prodid,
-      "quantity":quant
+    const cart: Cart = new class implements Cart {
+      id=prodid;
+      omemberId: number;
+      price: number;
+      productId: number;
+      productName: string;
+      quantity=quant;
+      suntotal: number;
     }
-    return this.http.put<any>(environment.baseUrl+environment.updateCartUrl, map);
+    return this.http.put<any>(environment.baseUrl+environment.updateCartUrl, cart);
   }
 
   // delete cart Item
-  deleteCartItem(bufdid: number): Observable<any> {
-    return this.http.delete<any>(environment.baseUrl+environment.deleteCartUrl + "?bufcartid=" + bufdid);
+  deleteCartItem(id: number): Observable<any> {
+    return this.http.delete<any>(environment.baseUrl+environment.deleteCartUrl + "?id=" + id);
   }
 
   // update Address
@@ -85,13 +92,16 @@ export class ApiService {
   }
 
    // Fetching all the products
-   getProducts(): Observable<any> {
+   getProducts(categoryId: number): Observable<any> {
+    return this.http.get<any>(environment.baseUrl+environment.productsUrl+categoryId);
+  }
+  getProduct(): Observable<any> {
     return this.http.get<any>(environment.baseUrl+environment.productsUrl);
   }
 
   // Add product in the system
   addProduct( desc: string,
-    quan: string, price: string, prodname: string, image: File, keyword: string): Observable<any> {
+    quan: string, price: string, prodname: string, image: File, keyword: string, categoryId:any): Observable<any> {
     const formData: FormData = new FormData();
     formData.append("images", image);
     formData.append("description", desc);
@@ -99,13 +109,14 @@ export class ApiService {
     formData.append("name", prodname);
     formData.append("stock", quan);
     formData.append("keyword", keyword);
+    formData.append("categoryId", categoryId);
     return this.http.post<any>(environment.baseUrl+environment.addProductUrl, formData);
 
   }
 
   // update Product for Logged Admin User
   updateProduct( desc: string,
-    quan: string, price: string, prodname: string, image: File, keywords: string, id: any): Observable<any> {
+    quan: string, price: string, prodname: string, image: File, keywords: string,categoryId: any, id: any): Observable<any> {
     const formData: FormData = new FormData();
     formData.append("description", desc);
     formData.append("price", price);
@@ -113,6 +124,8 @@ export class ApiService {
     formData.append("stock", quan);
     formData.append("images", image);
     formData.append("keyword", keywords);
+
+    formData.append("categoryId", categoryId);
     formData.append("productId", id);
     return this.http.put<any>(environment.baseUrl+environment.updateProductUrl, formData);
   }
@@ -123,13 +136,13 @@ export class ApiService {
   }
 
   // fetch available orders placed
-  getOrders() {
-    return this.http.get<any>(environment.baseUrl+environment.viewOrderUrl)
+  getOrders(id: number) {
+    return this.http.get<any>(environment.baseUrl+environment.viewOrderUrl+id);
   }
 
    // place the order
    placeOrder(): Observable<any> {
-    return this.http.get<any>(environment.baseUrl+environment.placeOrderUrl);
+    return this.http.post<any>(environment.baseUrl+environment.placeOrderUrl,1);
   }
 
   // update status for order
@@ -167,4 +180,63 @@ export class ApiService {
     return this.storage.remove("auth_token");
   }
 
+  getCategories(categoryId: number) {
+    return this.http.get<any>(environment.baseUrl+environment.categoriesUrl+categoryId);
+
+  }
+
+  addCategory(parentid: any, name: any, level: any, product_count: any, keywords: any, desc: any):Observable<any> {
+
+    const category: Category=new class implements Category {
+      description = desc;
+      id: number;
+      keywords=keywords;
+      level=level;
+      name=name;
+      parent_id=parentid;
+      product_count=product_count;
+    }
+    return this.http.post<any>(environment.baseUrl+environment.addCategoryUrl, category);
+
+  }
+
+  deleteCategory(id: number) {
+    return this.http.delete<any>(environment.baseUrl+environment.deleteCategoryUrl + "?categoryId=" + id);
+
+
+  }
+
+  editCategory(parentid: any, name: any, level: any, product_count: any, keywords: any, desc: any,id:any) {
+    const category: Category=new class implements Category {
+      description = desc;
+      id= id;
+      keywords=keywords;
+      level=level;
+      name=name;
+      parent_id=parentid;
+      product_count=product_count;
+    };
+    return this.http.post<any>(environment.baseUrl+environment.updateCategoryUrl, category);
+
+
+  }
+
+  getProductsByCollection() {
+    return this.http.get<any>(environment.baseUrl+environment.getCollectionUrl);
+
+  }
+
+  addToCollection(product: Product) {
+    return this.http.post<any>(environment.baseUrl+environment.addToCollectiontUrl , product );
+
+  }
+
+  deleteProductsByCollection(prodid: any) {
+    return this.http.delete<any>(environment.baseUrl+environment.deleteToCollectiontUrl + "?productId=" + prodid);
+
+  }
+
+  getDetailItems(orderId:number) {
+    return this.http.get<any>(environment.baseUrl+environment.detailItemtUrl  +orderId);
+  }
 }

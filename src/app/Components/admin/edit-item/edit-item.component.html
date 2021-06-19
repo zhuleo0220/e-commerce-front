@@ -2,7 +2,7 @@
 <div class="container">
         <br>
         <form class="form-horizontal shadow p-3 mb-5 bg-white rounded" #f="ngForm"
-                (ngSubmit)="f.form.valid && updateProd(desc,stock,price,name,image,keywords)">
+                (ngSubmit)="f.form.valid && updateProd(desc,stock,price,name,image,keywords,categoryId)">
                 <div class="row">
                         <div class="col-6">
                                 <div class="form-group">
@@ -32,6 +32,10 @@
                                                ngModel [(ngModel)]="product.keywords">
 
 
+                                </div>
+                                <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="categoryId" name="category" #categoryId
+                                               ngModel [(ngModel)]="product.productCategoryId">
                                 </div>
 
 

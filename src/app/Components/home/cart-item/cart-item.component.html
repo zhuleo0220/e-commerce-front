@@ -15,33 +15,33 @@
     </thead>
     <tr *ngFor="let cart of cartlist">
       <td>
-        {{cart.productname}}
+        {{cart.productName}}
       </td>
-      <td>{{cart.price | currency:'USD'}}</td>
+      <td>{{cart.price | currency:'EUR'}}</td>
       <td>
 
         <div class="row">
           <div class="col-6">
-            <input type="number" value="{{cart.quantity}}" #quant>
-            <input type="hidden" value="{{cart.bufcartId}}" #prod>
+            <input type="number" value="{{cart.quantity}}" #quantity>
+            <input type="hidden" value="{{cart.id}}" >
           </div>
           <div class="col-6">
-            <button class="btn btn-info btn-sm" (click)="updateCart(prod,quant)">Update</button>
+            <button class="btn btn-info btn-sm" (click)="updateCart(cart.id,quantity)">Update</button>
           </div>
         </div>
       </td>
       <td>
-        {{cart.quantity*cart.price | currency:'USD'}}
+        {{cart.quantity*cart.price | currency:'EUR'}}
 
       </td>
       <td>
-        <button class="btn btn-info btn-sm" (click)="deleteItem(prod)">Delete</button>
+        <button class="btn btn-info btn-sm" (click)="deleteItem(cart.id)">Delete</button>
       </td>
     </tr>
   </table>
 
   <div class="row">
-    <div class="col-9">Total Sum : {{totalSum | currency:'USD'}}</div>
+    <div class="col-9">Total Sum : {{totalSum | currency:'EUR'}}</div>
     <div class="offset-1 col-2"><button type="button" class="btn btn-primary align-right" (click)="placeOrder()">Checkout <i
           class="fa fa-angle-right"></i></button></div>
 

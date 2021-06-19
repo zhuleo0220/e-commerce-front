@@ -1,33 +1,88 @@
 <app-navigation></app-navigation>
 <div class="container">
     <br>
-    <div class="row">
-        <div class="col-6 align-left" *ngFor="let order of orderlist">
-            <div class="card shadow p-3 mb-5 bg-white rounded">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <p class="card-title"><b>Order By:</b> {{order.orderBy}}</p>
-                            <p class="card-text"><b>Status:</b> {{order.orderStatus}}</p>
-                        </div>
+    <a routerLink="/home" class="btn btn-primary"><i class="fa fa-angle-left"></i> Continue Shopping</a><br>
+    <table id="order" class="table table-hover table-condensed table-borderless" *ngFor="let order of orderList ">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>TotalAmount</th>
+            <th>Note</th>
+            <th>CreateTime</th>
+            <th>PaymentTime</th>
+            <th>DeliveryTime</th>
+            <th>ReceiveTime</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>
+                {{order.id}}
+            </td>
+            <td>{{order.totalAmount}}</td>
+            <td>{{order.note}}</td>
+            <td>{{order.createTime}}</td>
+            <td>{{order.paymentTime}}</td>
+            <td>{{order.deliveryTime}}</td>
+            <td>{{order.receiveTime}}</td>
+            <td>
+                <button class="btn btn-info btn-sm" (click)="showDetailOrder(order)">Detail</button>
+            </td>
+        </tr>
+        <div *ngIf="order.showDetail">
+            <div class="row">
+                <label class="control-label" for="address">Address: {{this.model.address}} </label>
+                <label class="control-label" for="city">&nbsp;City:{{this.model.city}} </label>
+                <label class="control-label" for="state">&nbsp;State:{{this.model.state}} </label>
+                <label class="control-label" for="country"> &nbsp;Country:{{this.model.country}} </label>
+                <label class="control-label" for="zipcode"> &nbsp;Zipcode:{{this.model.zipcode}} </label>
+                <label class="control-label" for="phoneNumber">&nbsp;PhoneNumber:{{this.model.phoneNumber}} </label>
 
-                        <div class="col-6">
-                            <button class="btn btn-secondary" (click)="approve(order.orderId)">Approve</button>
-                            <button style="margin-left: 10px;" class="btn btn-secondary" (click)="decline(order.orderId)">Decline</button>
-                        </div>
-                    </div>
-                    <br>
-                    <h5>Order Details</h5>
-                    <div class="row">
-                        <div class="col" *ngFor="let buf of order.products">
-                            <p class="card-title"> {{buf.productname}}</p>
-                            <p class="card-text"> Price : {{buf.price  | currency:'USD'}}</p>
-                            <p class="card-text">Quantity: {{buf.quantity}}</p>
-                        </div>
-
-                    </div>
-                </div>
             </div>
+            <div class="container">
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                </tr>
+
+                <tr *ngFor="let cart of cartlist">
+                    <td>
+                        {{cart.productName}}
+                    </td>
+                    <td>{{cart.price | currency:'EUR'}}</td>
+                    <td>
+                        {{cart.quantity}}
+                    </td>
+                    <td>
+                        {{cart.quantity*cart.price | currency:'EUR'}}
+
+                    </td>
+
+
+
+
+
+            </div>
+
         </div>
-    </div>
+        <tr>
+            <td *ngIf="order.status==0">
+                <button class="btn btn-info btn-sm" (click)="PayOrder(order)">Pay</button>
+            </td>
+            <td *ngIf="order.status==2">
+                <button class="btn btn-info btn-sm" (click)="ComfirmReceive(order)">ComfirmReceive</button>
+            </td>
+        </tr>
+
+
+
+
+        </thead>
+    </table>
+
+
+
+
 </div>

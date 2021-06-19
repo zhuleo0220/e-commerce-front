@@ -21,7 +21,9 @@ import { AddressComponent } from './Components/home/address/address.component';
 import { EditItemComponent } from './Components/admin/edit-item/edit-item.component';
 import { OrderItemComponent } from './Components/admin/order-item/order-item.component';
 import { AuthInterceptor } from './Service/AuthInterceptor';
-const appRoutes:Routes=[
+import { CollectionComponent } from './Components/home/collection/collection.component';
+import { OrderComponent } from './Components/home/order/order.component';
+const appRoutes: Routes = [
 
 {
   path:'login',
@@ -48,10 +50,21 @@ const appRoutes:Routes=[
   component: CartItemComponent,
   canActivate:[AuthguardGuard]
 },
+  {
+    path:'home/collection',
+    component: CollectionComponent,
+    canActivate:[AuthguardGuard]
+  },
+  {
+    path:'home/order',
+    component: OrderComponent,
+    canActivate:[AuthguardGuard]
+  },
 {
   path:'home/address',
   component: AddressComponent,
-  canActivate:[AuthguardGuard]
+  canActivate:[AuthguardGuard],
+  canLoad: [AuthguardGuard]
 },
 {
   path:'admin/edit',
@@ -62,7 +75,7 @@ const appRoutes:Routes=[
   path:'admin/order',
   component: OrderItemComponent,
   canActivate:[AuthguardGuard]
-}
+},
 ];
 
 @NgModule({
@@ -78,7 +91,9 @@ const appRoutes:Routes=[
     AddressComponent,
     AdminComponent,
     EditItemComponent,
-    OrderItemComponent
+    OrderItemComponent,
+    CollectionComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,
@@ -96,7 +111,7 @@ const appRoutes:Routes=[
     provide : HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi   : true,
-  },],
+  },AuthguardGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
