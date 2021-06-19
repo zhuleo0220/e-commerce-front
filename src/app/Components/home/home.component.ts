@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/Service/api.service';
 import { Product } from 'src/app/Model/product';
 import {Category} from '../../Model/Category';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ export class HomeComponent implements OnInit {
     selectedCategory: Category;
     subCategories: Category[] = [];
     subShow:boolean;
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService,private messageService: MessageService) { }
 
   ngOnInit() {
       this.subShow=false;
@@ -36,11 +37,18 @@ export class HomeComponent implements OnInit {
 
   addToCart(e) {
     this.api.addToCart(e).subscribe(res => {
-      console.log(res);
+        if(res.code==401){
+            this.messageService.clear();
+            this.messageService.add("login first");
+        } else{
+            this.messageService.clear();
+            this.messageService.add("add to cart success");
+        }
     });
   }
 
     onSelect(category: any) {
+      this.messageService.clear();
       this.selectedCategory=category;
         this.api.getCategories(category.id).subscribe(
             res => {
@@ -52,6 +60,11 @@ export class HomeComponent implements OnInit {
                 this.products = res.data;
             }
         );
+
+        if(this.subCategories.length){
+            this.messageService.add('no category exist');
+
+        } ;
         this.ifShow=false;
         this.subShow=true;
 
@@ -61,11 +74,16 @@ export class HomeComponent implements OnInit {
     }
 
     onSelectSub(category: Category) {
+      this.messageService.clear();
         this.api.getProducts(category.id).subscribe(
             res => {
                 this.products = res.data;
             }
         );
+     if(this.products.length){
+            this.messageService.add('no product exist');
+
+        };
 
 
     }
@@ -79,6 +97,13 @@ export class HomeComponent implements OnInit {
 
     addToCollection(e) {
         this.api.addToCollection(e).subscribe(res => {
+            if(res.code==401){
+                this.messageService.clear();
+                this.messageService.add("login first");
+            }else{
+                this.messageService.clear();
+                this.messageService.add("add to collection success");
+            }
     })
 }
 }

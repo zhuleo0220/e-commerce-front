@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Address } from 'src/app/Model/address';
 import { ApiService } from 'src/app/Service/api.service';
 import { Router } from '@angular/router';
+import {MessageService} from '../../message.service';
 
 @Component({
   selector: 'app-address',
@@ -20,7 +21,7 @@ export class AddressComponent implements OnInit {
     phoneNumber: ''
 
   };
-  constructor(private api: ApiService, private route: Router) { }
+  constructor(private api: ApiService, private route: Router,private messageService: MessageService) { }
 
   ngOnInit() {
     this.api.getAddress().subscribe(res => {
@@ -34,9 +35,12 @@ export class AddressComponent implements OnInit {
 
   addOrUpdateAddress() {
     this.api.addOrUpdateAddress(this.model).subscribe(res => {
-      console.log(res);
-      location.reload();
+      if(res.code==200) {
+        this.messageService.add('update address successfully');
+      }
+      // location.reload();
     });
+
   }
 
 }

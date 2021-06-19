@@ -23,6 +23,7 @@ import { OrderItemComponent } from './Components/admin/order-item/order-item.com
 import { AuthInterceptor } from './Service/AuthInterceptor';
 import { CollectionComponent } from './Components/home/collection/collection.component';
 import { OrderComponent } from './Components/home/order/order.component';
+import { MessagesComponent } from './Components/messages/messages.component';
 const appRoutes: Routes = [
 
 {
@@ -93,7 +94,8 @@ const appRoutes: Routes = [
     EditItemComponent,
     OrderItemComponent,
     CollectionComponent,
-    OrderComponent
+    OrderComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
