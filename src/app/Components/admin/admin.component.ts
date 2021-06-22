@@ -123,13 +123,13 @@ export class AdminComponent implements OnInit {
     );
   }
 
-  addCategory(parentid: any, name: any, level: any, product_count: any, keywords: any, desc: any) {
-    this.api.addCategory(parentid.value,name.value,level.value,product_count.value,keywords.value,desc.value).subscribe(res => {
+  addCategory(parentid: any, name: any,  desc: any) {
+    this.api.addCategory(parentid.value,name.value,desc.value).subscribe(res => {
     });
   }
 
   editCategory(category: Category) {
-    this.api.getCategories(0).subscribe(
+    this.api.getCategories(-1).subscribe(
         res => {
           res.data.forEach(cat => {
             if (cat.id == category.id) {
@@ -149,9 +149,9 @@ export class AdminComponent implements OnInit {
     });
 }
 
-  clickEditCategory(parentid: any, name: any, level: any, product_count: any, keywords: any, desc: any) {
+  clickEditCategory(parentid: any, name: any, desc: any) {
 
-    this.api.editCategory(parentid.value,name.value,level.value,product_count.value,keywords.value,desc.value,this.editCat.id).subscribe(res => {
+    this.api.editCategory(parentid.value,name.value,desc.value,this.editCat.id).subscribe(res => {
     });
     this.showEditCat=false;
   }

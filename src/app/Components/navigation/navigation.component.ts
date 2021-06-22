@@ -23,10 +23,7 @@ export class NavigationComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
-    //console.log(this.auth.getAuthType());
-
-  }
+  ngOnInit() { }
   logout() {
     this.loggedType = "home";
     this.auth.removeToken();

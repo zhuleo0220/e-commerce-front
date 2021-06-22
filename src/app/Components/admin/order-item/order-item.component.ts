@@ -52,7 +52,7 @@ export class OrderItemComponent implements OnInit {
       if (res.data != null) {
         this.model = res.data;
       }
-    };
+    });
     this.api.getDetailItems(order.id).subscribe(res => {
       this.cartlist = res.data;
     });

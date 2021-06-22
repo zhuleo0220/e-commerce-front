@@ -1,9 +1,9 @@
 export interface Category {
     id: number;
-    parent_id: number;
+    parentId: number;
     description: string;
     level: any;
     name: string;
-    product_count: number;
+    productCount: number;
     keywords: string;
 }

@@ -55,7 +55,7 @@
                         </div>
                 </div>
         </form>
-        <form class="form-horizontal shadow p-3 mb-5 bg-white rounded " #f="ngForm" (ngSubmit)="f.form.valid && addCategory(parentid,name,level,product_count,keywords,desc)"
+        <form class="form-horizontal shadow p-3 mb-5 bg-white rounded " #f="ngForm" (ngSubmit)="f.form.valid && addCategory(parentid,name,desc)"
               *ngIf="showAddCategory">
                 <div class="row">
                         <div class="col-6">
@@ -65,24 +65,15 @@
                                 </div>
                                 <div class="form-group">
                                         <input type="text" class="form-control" placeholder="Parent Id" #parentid
-                                               ngModel name="parentid">
+                                               ngModel name="parentId">
                                 </div>
                                 <div class="form-group">
                                         <textarea type="text" class="form-control" placeholder="description" name="desc"
                                                   #desc ngModel rows="5"></textarea>
                                 </div>
-                                <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="product_count" name="product_count" #product_count
-                                               ngModel>
-                                </div>
-                                <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="level" name="level" #level
-                                               ngModel>
-                                </div>
-                                <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="keyword" name="keyword" #keywords
-                                               ngModel>
-                                </div>
+
+
+
 
                         </div>
 
@@ -94,7 +85,7 @@
                         </div>
                 </div>
         </form>
-        <form class="form-horizontal shadow p-3 mb-5 bg-white rounded " #f="ngForm" (ngSubmit)="f.form.valid && clickEditCategory(parentid,name,level,product_count,keywords,desc)"
+        <form class="form-horizontal shadow p-3 mb-5 bg-white rounded " #f="ngForm" (ngSubmit)="f.form.valid && clickEditCategory(parentid,name,desc)"
               *ngIf="showEditCat">
                 <div class="row">
                         <div class="col-6">
@@ -104,24 +95,15 @@
                                 </div>
                                 <div class="form-group">
                                         <input type="text" class="form-control" placeholder="Parent Id" #parentid
-                                               ngModel [(ngModel)]="editCat.parent_id" name="parentid">
+                                               ngModel [(ngModel)]="editCat.parentId" name="parentid">
                                 </div>
                                 <div class="form-group">
                                         <textarea type="text" class="form-control" placeholder="description" name="desc"
                                                   #desc ngModel [(ngModel)]="editCat.description"rows="5"></textarea>
                                 </div>
-                                <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="product_count" name="product_count" #product_count
-                                               ngModel [(ngModel)]="editCat.product_count">
-                                </div>
-                                <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="level" name="level" #level
-                                               ngModel [(ngModel)]="editCat.level">
-                                </div>
-                                <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="keyword" name="keyword" #keywords
-                                               ngModel [(ngModel)]="editCat.keywords">
-                                </div>
+
+
+
 
                         </div>
 

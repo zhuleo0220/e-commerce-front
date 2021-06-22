@@ -95,9 +95,7 @@ export class ApiService {
    getProducts(categoryId: number): Observable<any> {
     return this.http.get<any>(environment.baseUrl+environment.productsUrl+categoryId);
   }
-  getProduct(): Observable<any> {
-    return this.http.get<any>(environment.baseUrl+environment.productsUrl);
-  }
+
 
   // Add product in the system
   addProduct( desc: string,
@@ -145,13 +143,7 @@ export class ApiService {
     return this.http.post<any>(environment.baseUrl+environment.placeOrderUrl,1);
   }
 
-  // update status for order
-  updateStatusForOrder( order: any) {
-    const formData: FormData = new FormData();
-    formData.append("orderId", order.orderId);
-    formData.append("orderStatus", order.orderStatus);
-    return this.http.post<any>(environment.baseUrl+environment.updateOrderUrl, formData)
-  }
+
 
   // Authentication Methods
 
@@ -185,16 +177,16 @@ export class ApiService {
 
   }
 
-  addCategory(parentid: any, name: any, level: any, product_count: any, keywords: any, desc: any):Observable<any> {
+  addCategory(parentid: any, name: any,  desc: any):Observable<any> {
 
     const category: Category=new class implements Category {
       description = desc;
       id: number;
-      keywords=keywords;
-      level=level;
+      keywords;
+      level;
       name=name;
-      parent_id=parentid;
-      product_count=product_count;
+      parentId=parentid;
+      productCount;
     }
     return this.http.post<any>(environment.baseUrl+environment.addCategoryUrl, category);
 
@@ -206,15 +198,15 @@ export class ApiService {
 
   }
 
-  editCategory(parentid: any, name: any, level: any, product_count: any, keywords: any, desc: any,id:any) {
+  editCategory(parentid: any, name: any, desc: any,id:any) {
     const category: Category=new class implements Category {
       description = desc;
       id= id;
-      keywords=keywords;
-      level=level;
+      keywords;
+      level;
       name=name;
-      parent_id=parentid;
-      product_count=product_count;
+      parentId=parentid;
+      productCount;
     };
     return this.http.post<any>(environment.baseUrl+environment.updateCategoryUrl, category);
 

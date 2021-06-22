@@ -34,6 +34,7 @@ export class RegisterComponent implements OnInit {
           if(res.code==200){
             this.messageService.clear();
             this.messageService.add("register success");
+            this.router.navigate(['/login']);
           } else if (res.code==500){
             this.messageService.clear();
             this.messageService.add("register failed username already exists");
